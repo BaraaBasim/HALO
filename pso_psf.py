@@ -28,11 +28,13 @@ class OptimizeFunction:
         #x.data.clamp_(0,700)
         with torch.no_grad():
             imgWithPatch = self.imgs 
-            for i in range(4):
-                
+            # Number of Light sources 12
+            for i in range(12):
                 top_para, bottom_para, left_para, right_para = x[i][0].item(), x[i][1].item(), x[i][2].item(), x[i][3].item();
                 
                 psf_img = cv2.imread(f'psf_starlight/{i}.jpg')
+                psf_img = cv2.cvtColor(psf_img, cv2.COLOR_BGR2RGB)
+
                 
                 # im = TF.ToPILImage()(psf_img)
                 # im.save("psf_before_padding.png")
@@ -67,9 +69,9 @@ class OptimizeFunction:
                 imgWithPatch = self.patch_applier(imgWithPatch, patch_tf, patch_mask_tf)
 
             # ---------------------------
-            # img_save = imgWithPatch[0]
-            # im = TF.ToPILImage()(img_save)
-            # im.save("0.png")
+            img_save = imgWithPatch[0]
+            im = TF.ToPILImage()(img_save)
+            im.save("0.png")
             # ---------------------------
 
             out, train_out = self.detector(imgWithPatch)
@@ -98,7 +100,7 @@ class Particle:
         self.c2 = 2
         self.classes = 4
         
-        random_matrix = torch.rand((4, 4)).to(self.device) * 700
+        random_matrix = torch.rand((12, 4)).to(self.device) * 700
         
         self.position = random_matrix
         self.velocity = torch.zeros((dimensions, self.classes)).to(self.device)
@@ -143,7 +145,7 @@ class PSO:
         self.gbest_value = torch.Tensor([float("inf")]).to(device)
         self.swarm = []
         for i in range(self.swarm_size):
-            self.swarm.append(Particle(dimensions=4, device=device))         # dimension
+            self.swarm.append(Particle(dimensions=12, device=device))         # dimension
         
     
     def optimize(self, function):

@@ -49,7 +49,7 @@ class PatchTransformer(nn.Module):
             '''
             
             # resize
-            patch_size = int(targets[i][-1] * image_size[-2] * 0.7)
+            patch_size = int(targets[i][-1] * image_size[-2] * 1) # 0.7
             # print('-------0622----->', patch_size)
             patch_resize = KT.resize(patch, (patch_size, patch_size), align_corners=True)
             patch_mask_resize = KT.resize(patch_mask, (patch_size, patch_size), align_corners=True)

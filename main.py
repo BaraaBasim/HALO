@@ -90,7 +90,7 @@ if __name__ == '__main__':
     parser.add_argument('--image-weights', action='store_true', help='use weighted image selection for training')
     parser.add_argument('--workers', type=int, default=8, help='max dataloader workers (per RANK in DDP mode)')
     parser.add_argument('--noval', action='store_true', help='only validate final epoch')
-    parser.add_argument('--epochs', type=int, default=15)
+    parser.add_argument('--epochs', type=int, default=4)
     parser.add_argument('--label-smoothing', type=float, default=0.0, help='Label smoothing epsilon')
     parser.add_argument('--dnn', action='store_true', help='use OpenCV DNN for ONNX inference')
     parser.add_argument('--half', action='store_true', help='use FP16 half-precision inference')
