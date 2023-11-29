@@ -1,0 +1,11 @@
+path: /home/ps/Baraa/physics-based image generation model matlab script/image-generation-model/attack_pipeline/dataset/INRIAPerson_YOLO_relabel
+
+# INRIAPerson_YOLO_relabel
+# COCOPerson_YOLO
+
+train: images/train
+val: images/val
+
+# Classes
+nc: 1  # number of classes
+names: ['person']  # class names
