@@ -39,10 +39,13 @@ class OptimizeFunction:
                 # im = TF.ToPILImage()(psf_img)
                 # im.save("psf_before_padding.png")
 
+
                 psf_img = add_padding(psf_img, top_para, bottom_para, left_para, right_para)
                 
-                # im = TF.ToPILImage()(psf_img)
-                # im.save("psf_after_padding.png")
+                '''
+                im = TF.ToPILImage()(psf_img)
+                im.save("psf_after_padding.png")
+                '''
                 # ---------------------------
                 # print('---top_para--->', top_para)
                 # print('---bottom_para--->', bottom_para)
