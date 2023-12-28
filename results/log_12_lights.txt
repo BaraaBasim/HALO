@@ -78,6 +78,9 @@ Epoch: 3 Batch: 16 gbest_value: 0.919224202632904
 Epoch: 3 Batch: 17 gbest_value: 0.919224202632904
 Epoch: 3 Batch: 18 gbest_value: 0.919224202632904
 Epoch: 3 Batch: 19 gbest_value: 0.919224202632904
+
+#### DIFFERENT PATCH SIZE ####
+
 Epoch: 0 Batch: 0 gbest_value: 0.9591262936592102
 Epoch: 0 Batch: 1 gbest_value: 0.9591262936592102
 Epoch: 0 Batch: 2 gbest_value: 0.9591262936592102

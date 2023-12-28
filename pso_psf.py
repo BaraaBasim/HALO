@@ -36,16 +36,16 @@ class OptimizeFunction:
                 psf_img = cv2.cvtColor(psf_img, cv2.COLOR_BGR2RGB)
 
                 
-                # im = TF.ToPILImage()(psf_img)
-                # im.save("psf_before_padding.png")
+                im = TF.ToPILImage()(psf_img)
+                im.save("psf_before_padding.png")
 
 
                 psf_img = add_padding(psf_img, top_para, bottom_para, left_para, right_para)
                 
-                '''
+                
                 im = TF.ToPILImage()(psf_img)
                 im.save("psf_after_padding.png")
-                '''
+                
                 # ---------------------------
                 # print('---top_para--->', top_para)
                 # print('---bottom_para--->', bottom_para)
@@ -75,7 +75,7 @@ class OptimizeFunction:
             img_save = imgWithPatch[0]
             im = TF.ToPILImage()(img_save)
             im.save("0.png")
-            # ---------------------------
+            # # ---------------------------
 
             out, train_out = self.detector(imgWithPatch)
             obj_confidence = out[:, :, 4]

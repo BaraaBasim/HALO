@@ -279,6 +279,11 @@ def run(
                 
                 patch_tf, patch_mask_tf = patch_transformer(psf_img, targets, im)
                 imgWithPatch = patch_applier(imgWithPatch, patch_tf, patch_mask_tf)
+                # print(patch_tf.size())
+                img_save = patch_tf[0]
+                im_w = TF.ToPILImage()(img_save)
+                im_w.save(f"patch/{i}.png")
+        break;
         
 
         # patch_tf, patch_mask_tf = patch_transformer(patch, targets, im)
