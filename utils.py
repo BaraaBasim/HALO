@@ -51,17 +51,11 @@ class PatchTransformer(nn.Module):
             '''
             
             # resize
-            patch_size = int(targets[i][-1] * image_size[-2] * 0.5) # 0.7
+            patch_size = int(targets[i][-1] * image_size[-2] * 1) # 0.7
             # print('-------0622----->', patch_size)
             patch_resize = KT.resize(patch, (patch_size, patch_size), align_corners=True)
             patch_mask_resize = KT.resize(patch_mask, (patch_size, patch_size), align_corners=True)
             # print("-----patch_resize---->", patch_resize.requires_grad)
-
-            '''
-            img_save = patch_resize[0]
-            im = TF.ToPILImage()(img_save)
-            im.save("patch_resize.png")
-            '''
             
             # print('------>', patch_resize.size())
             # rotation
@@ -106,15 +100,14 @@ class PatchTransformer(nn.Module):
         #print("-----patch_tf---->", patch_tf.requires_grad)
         '''
         # 保存中间图片
-        img_save = patch_tmp[0]
+        img_save = patch_tf[0]
         im = TF.ToPILImage()(img_save)
         im.save("1.png")
-        img_save = patch_mask_tmp[0]
+        img_save = patch_mask_tf[0]
         im = TF.ToPILImage()(img_save)
         im.save("2.png")
         print(patch_tf.size())
         '''
-        
         return patch_tmp, patch_mask_tmp
         
         

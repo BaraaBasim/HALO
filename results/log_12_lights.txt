@@ -2,6 +2,7 @@ Epoch: 0 Batch: 0 gbest_value: 0.9505013227462769
 Epoch: 0 Batch: 1 gbest_value: 0.9505013227462769
 Epoch: 0 Batch: 2 gbest_value: 0.9505013227462769
 Epoch: 0 Batch: 3 gbest_value: 0.9505013227462769
+<<<<<<< HEAD:results/log_12_lights.txt
 Epoch: 0 Batch: 4 gbest_value: 0.9505013227462769
 Epoch: 0 Batch: 5 gbest_value: 0.9505013227462769
 Epoch: 0 Batch: 6 gbest_value: 0.9326637387275696
@@ -161,3 +162,5 @@ Epoch: 3 Batch: 16 gbest_value: 0.9516481161117554
 Epoch: 3 Batch: 17 gbest_value: 0.9516481161117554
 Epoch: 3 Batch: 18 gbest_value: 0.9516481161117554
 Epoch: 3 Batch: 19 gbest_value: 0.9516481161117554
+=======
+>>>>>>> parent of b85f067 (12 lights INRIA):results/log.txt

@@ -256,7 +256,7 @@ def run(
             nb, _, height, width = im.shape  # batch size, channels, height, width
             
             imgWithPatch = im
-            for i in range(12):
+            for i in range(4):
                 if swarm_parameters is not None:
                     x = swarm_parameters.gbest_position
                 else:
