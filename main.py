@@ -58,7 +58,7 @@ import torchvision.transforms as TF
 from matplotlib import pyplot as plt
 import sys
 sys.path.append('../')
-from script import generatePSF
+# from script import generatePSF
 from pso_psf import OptimizeFunction, PSO
 # -------------------------------------------
 

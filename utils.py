@@ -39,7 +39,9 @@ class PatchTransformer(nn.Module):
         
         for i in range(targets.size(0)):
             img_idx = targets[i][0]
-            
+            # print(i)
+            # print(patch.data.device)
+            # print(torch.cuda.get_device_name(0))
             ''' 
             # noise
             noise = torch.cuda.FloatTensor(patch.size()).uniform_(-1, 1) * self.noise_factor

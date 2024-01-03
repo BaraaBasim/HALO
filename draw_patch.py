@@ -432,7 +432,7 @@ def run(
 
 def parse_opt():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--data', type=str, default=ROOT / 'config/data_config_one.yaml', help='dataset.yaml path')
+    parser.add_argument('--data', type=str, default=ROOT / 'config/data_config_print_patch.yaml', help='dataset.yaml path')
     parser.add_argument('--weights', nargs='+', type=str, default="checkpoints/finetune_yolov5s_onINRIA.pt", help='model path(s)')
     parser.add_argument('--batch-size', type=int, default=32, help='batch size')
     parser.add_argument('--imgsz', '--img', '--img-size', type=int, default=640, help='inference size (pixels)')

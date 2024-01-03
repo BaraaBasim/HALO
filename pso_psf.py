@@ -7,9 +7,9 @@ from matplotlib import pyplot as plt
 import torch.nn as nn
 import torchvision.transforms as TF
 from utils import PatchApplier, PatchTransformer
-from script import generatePSF, add_padding
+from script import add_padding
 import matlab.engine
-
+import datetime
 
 class OptimizeFunction:
     def __init__(self, detector, device):
@@ -31,9 +31,9 @@ class OptimizeFunction:
             # Number of Light sources 12
             for i in range(12):
                 top_para, bottom_para, left_para, right_para = x[i][0].item(), x[i][1].item(), x[i][2].item(), x[i][3].item();
-                
                 psf_img = cv2.imread(f'psf_starlight/{i}.jpg')
                 psf_img = cv2.cvtColor(psf_img, cv2.COLOR_BGR2RGB)
+
 
                 
                 im = TF.ToPILImage()(psf_img)
@@ -52,16 +52,12 @@ class OptimizeFunction:
                 # print('---left_para--->', left_para)
                 # print('---right_para--->', right_para)
                 
-                # print('---color_parar--->', color_paraR)
-                # print('---color_parag--->', color_paraG)
-                # print('---color_parab--->', color_paraB)
 
 
                 psf_img = psf_img.astype(np.uint8)
                 psf_img = psf_img / 255
                 psf_img = torch.from_numpy(psf_img).cuda()
                 psf_img = psf_img.permute(2, 0, 1)
-
                 # ---------------------------
                 # im = TF.ToPILImage()(psf_img)
                 # im.save("1_psf.png")
@@ -70,6 +66,8 @@ class OptimizeFunction:
 
                 patch_tf, patch_mask_tf = self.trans(psf_img, self.targets, self.imgs)
                 imgWithPatch = self.patch_applier(imgWithPatch, patch_tf, patch_mask_tf)
+                
+
 
             # ---------------------------
             img_save = imgWithPatch[0]
@@ -83,7 +81,7 @@ class OptimizeFunction:
             obj_loss = torch.mean(max_obj_confidence)
             
             return_obj_loss = obj_loss
-            plt.plot(return_obj_loss.cpu().numpy(), label="Training Loss")
+            # plt.plot(return_obj_loss.cpu().numpy(), label="Training Loss")
                 # Loss function
         # plt.show()
         return return_obj_loss
