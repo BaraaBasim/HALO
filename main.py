@@ -9,7 +9,7 @@ from copy import deepcopy
 from datetime import datetime
 from pathlib import Path
 import torch
-import matlab.engine
+# import matlab.engine
 try:
     import comet_ml  # must be imported before torch (if installed)
 except ImportError:

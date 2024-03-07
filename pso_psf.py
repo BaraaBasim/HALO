@@ -8,7 +8,7 @@ import torch.nn as nn
 import torchvision.transforms as TF
 from utils import PatchApplier, PatchTransformer
 from script import add_padding
-import matlab.engine
+# import matlab.engine
 import datetime
 
 class OptimizeFunction:
@@ -73,6 +73,7 @@ class OptimizeFunction:
             img_save = imgWithPatch[0]
             im = TF.ToPILImage()(img_save)
             im.save("0.png")
+            print(1)
             # # ---------------------------
 
             out, train_out = self.detector(imgWithPatch)
