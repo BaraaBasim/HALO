@@ -1,0 +1,1 @@
+Epoch: 0 Batch: 0 gbest_value: 0.3040477931499481

@@ -1,4 +1,6 @@
 yolov5/
 checkpoints/
+loss/
 *.jpg
 *.png
+*.mp4

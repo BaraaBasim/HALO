@@ -8,6 +8,7 @@ import torch.nn as nn
 import torchvision.transforms as TF
 from utils import PatchApplier, PatchTransformer
 from script import add_padding
+from torch.utils.tensorboard import SummaryWriter
 # import matlab.engine
 import datetime
 
@@ -17,25 +18,26 @@ class OptimizeFunction:
         self.device = device
         self.trans = PatchTransformer()
         self.patch_applier = PatchApplier()
+        self.writer = SummaryWriter('loss/obj_loss')
 
     def set_para(self, targets, imgs):
         self.targets = targets
         self.imgs = imgs
         # self.eng = eng
 
-    def evaluate(self, x):
+    def evaluate(self, x, global_step):
         # print(x)
         #x.data.clamp_(0,700)
         with torch.no_grad():
             imgWithPatch = self.imgs 
-            # Number of Light sources 12
-            for i in range(12):
+            # Number of Light sources 8
+            for i in range(4):
                 top_para, bottom_para, left_para, right_para = x[i][0].item(), x[i][1].item(), x[i][2].item(), x[i][3].item();
                 psf_img = cv2.imread(f'psf_starlight/{i}.jpg')
                 psf_img = cv2.cvtColor(psf_img, cv2.COLOR_BGR2RGB)
 
 
-                
+
                 im = TF.ToPILImage()(psf_img)
                 im.save("psf_before_padding.png")
 
@@ -58,6 +60,8 @@ class OptimizeFunction:
                 psf_img = psf_img / 255
                 psf_img = torch.from_numpy(psf_img).cuda()
                 psf_img = psf_img.permute(2, 0, 1)
+                # im = TF.ToPILImage()(psf_img)
+                # im.save("whatisthis.png")
                 # ---------------------------
                 # im = TF.ToPILImage()(psf_img)
                 # im.save("1_psf.png")
@@ -73,19 +77,19 @@ class OptimizeFunction:
             img_save = imgWithPatch[0]
             im = TF.ToPILImage()(img_save)
             im.save("0.png")
-            print(1)
-            # # ---------------------------
+            # ---------------------------
 
             out, train_out = self.detector(imgWithPatch)
             obj_confidence = out[:, :, 4]
             max_obj_confidence, _ = torch.max(obj_confidence, dim=1)
             obj_loss = torch.mean(max_obj_confidence)
-            
+            self.writer.add_scalar('Obj_Loss', obj_loss.item(), global_step)
             return_obj_loss = obj_loss
-            # plt.plot(return_obj_loss.cpu().numpy(), label="Training Loss")
-                # Loss function
-        # plt.show()
+            
         return return_obj_loss
+
+    def close_writer(self):
+        self.writer.close()
 
 
 
@@ -114,7 +118,7 @@ class Particle:
     def update_velocity(self, gbest_position):
         r1 = torch.rand(1).to(self.device)
         r2 = torch.rand(1).to(self.device)
-        for i in range(0, self.classes):
+        for i in range(0, self.dimensions):
             self.velocity[i] = self.w * self.velocity[i] \
                                + self.c1 * r1 * (self.pbest_position[i] - self.position[i]) \
                                + self.c2 * r2 * (gbest_position[i] - self.position[i])
@@ -159,19 +163,19 @@ class PSO:
         swarm_parameters.r1 = 0
         swarm_parameters.r2 = 0
         # --- Run
+        global_step = 0
         for iteration in range(self.max_iterations):
             # --- Set PBest
             for particle in self.swarm:
-                fitness_candidate = self.fitness_function.evaluate(particle.position)
+                fitness_candidate = self.fitness_function.evaluate(particle.position, global_step)
+                global_step += 1
                 #break
                 if (particle.pbest_value > fitness_candidate):
                     particle.pbest_value = fitness_candidate
                     particle.pbest_position = particle.position.clone()
-            # --- Set GBest
-            for particle in self.swarm:
-                best_fitness_candidate = self.fitness_function.evaluate(particle.position)
-                if self.gbest_value > best_fitness_candidate:
-                    self.gbest_value = best_fitness_candidate
+                # --- Set GBest
+                if self.gbest_value > fitness_candidate:
+                    self.gbest_value = fitness_candidate
                     self.gbest_position = particle.position.clone()
                     self.gbest_particle = copy.deepcopy(particle)
             
@@ -187,6 +191,7 @@ class PSO:
             swarm_parameters.r1 = (sum(r1s) / self.swarm_size).item()
             swarm_parameters.r2 = (sum(r2s) / self.swarm_size).item()
 
+        self.fitness_function.close_writer()
 
         swarm_parameters.gbest_position = self.gbest_position
         swarm_parameters.gbest_value = self.gbest_value.item()

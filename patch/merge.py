@@ -33,7 +33,7 @@ for image in images[1:]:
     merged_image = cv2.addWeighted(merged_image, 1, image, 1, 0)
 
 # Save the merged image
-output_path = os.path.join(output_dir, "merged_image.jpg")
+output_path = os.path.join(output_dir, "12_lights.jpg")
 cv2.imwrite(output_path, merged_image)
 
 print("Merged image saved successfully!")
