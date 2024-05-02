@@ -1,4 +1,8 @@
-path: /home/ps/Baraa/data/nightowls_yolo_format (small)
+# path: /home/ps/Baraa/physics-based image generation model matlab script/HALOAttack/data/physical_attack/YOLO_format
+# path: /home/ps/Baraa/physics_based_image_generation_model_matlab_script/HALOAttack/data/physical_attack/YOLO_format/20240412
+# path: /home/ps/Baraa/data/nightowls_yolo_format_small
+path: /home/ps/Baraa/physics_based_image_generation_model_matlab_script/HALOAttack/data/dataset_for_val_attack/
+
 
 # INRIAPerson_YOLO_relabel
 # COCOPerson_YOLO
@@ -8,4 +12,4 @@ val: images/val
 
 # Classes
 nc: 1 # number of classes
-names: ["person"] # class names
+names: ["pedestrian"] # class names

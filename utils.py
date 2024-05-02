@@ -59,7 +59,7 @@ class PatchTransformer(nn.Module):
             
             # print('------>', patch_resize.size())
             # rotation
-            angle = random.uniform(-10, 10)
+            angle = random.uniform(0, 0)
             patch_rotation = TF.functional.rotate(patch_resize, angle, expand=True)
             patch_mask_rotation = TF.functional.rotate(patch_mask_resize, angle, expand=True)
             

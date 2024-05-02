@@ -1,5 +1,5 @@
 #path: /home/ps/Baraa/attack_pipeline/dataset/INRIAPerson_YOLO_relabel
-path: /home/ps/Baraa/data/nightowls_yolo_format (small)
+path: /home/ps/Baraa/physics-based image generation model matlab script/HALOAttack/data/physical_attack/YOLO_format
 train: images/train
 val: images/val
 

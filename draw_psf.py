@@ -178,16 +178,34 @@ def run(
     
     if swarm_parameters == None:
         # x = torch.rand((4, 4)).to(device) * 700
-        x = torch.tensor([[171.72475, 438.01559, 205.01587, 273.59644, 139.85002],
-        [219.94341, 298.36441, 273.33725, 343.95349, 298.82840],
-        [  4.26937, 696.59137, 260.41394, 448.08313, 298.30450],
-        [601.78552, 237.72952, 518.50378,  43.49548, 518.36945],
-        [700.00000, 280.41446, 377.56342, 464.05051, 371.41907],
-        [159.81523, 178.07115,  22.83858, 567.78796,  34.30641],
-        [628.48010, 208.24493, 281.53702,  96.46114, 592.59540],
-        [565.61377, 519.46173, 446.72980, 363.22382, 500.15259],
-        [417.71301, 297.74887, 177.92203, 136.82211, 292.79565],
-        [615.97839, 582.89709, 175.83571, 321.95026, 387.27197]], device='cuda:0')
+        x = torch.tensor([[700.00000,   8.90033, 353.88217,   0.00000],
+        [  0.00000, 152.43210,   0.00000,   0.00000],
+        [307.84952,   0.00000,   0.00000, 700.00000],
+        [700.00000, 700.00000,   0.00000,   0.00000],
+        [700.00000,   0.00000,   0.00000,   0.00000],
+        [  0.00000, 700.00000,   0.00000,   0.00000],
+        [700.00000, 671.12805, 700.00000, 606.33105],
+        [700.00000,   0.00000,   0.00000,   0.00000],
+        [700.00000,   0.00000, 700.00000,   0.00000],
+        [  0.00000,   0.00000, 505.67767, 700.00000],
+        [297.92099,   3.09504, 187.57324, 700.00000],
+        [658.47522, 700.00000, 134.40604,   0.00000]], device='cuda:0')
+
+        ################### BEST 12 LIGHTS ################## 
+        # tensor([[700.00000,   8.90033, 353.88217,   0.00000],
+        # [  0.00000, 152.43210,   0.00000,   0.00000],
+        # [307.84952,   0.00000,   0.00000, 700.00000],
+        # [700.00000, 700.00000,   0.00000,   0.00000],
+        # [700.00000,   0.00000,   0.00000,   0.00000],
+        # [  0.00000, 700.00000,   0.00000,   0.00000],
+        # [700.00000, 671.12805, 700.00000, 606.33105],
+        # [700.00000,   0.00000,   0.00000,   0.00000],
+        # [700.00000,   0.00000, 700.00000,   0.00000],
+        # [  0.00000,   0.00000, 505.67767, 700.00000],
+        # [297.92099,   3.09504, 187.57324, 700.00000],
+        # [658.47522, 700.00000, 134.40604,   0.00000]], device='cuda:0')
+
+
         # load patch
         ############################ 
         # patch_path = "results_0711_1/best.png"
@@ -254,7 +272,7 @@ def run(
             nb, _, height, width = im.shape  # batch size, channels, height, width
             
             imgWithPatch = im
-            for i in range(12):
+            for i in range(4):
                 if swarm_parameters is not None:
                     x = swarm_parameters.gbest_position
                 else:
@@ -277,11 +295,7 @@ def run(
                 
                 patch_tf, patch_mask_tf = patch_transformer(psf_img, targets, im)
                 imgWithPatch = patch_applier(imgWithPatch, patch_tf, patch_mask_tf)
-                # print(patch_tf.size())
-                img_save = patch_tf[0]
-                im_w = TF.ToPILImage()(img_save)
-                im_w.save(f"patch/{i}.png")
-        break;
+                
         
 
         # patch_tf, patch_mask_tf = patch_transformer(patch, targets, im)
@@ -369,6 +383,8 @@ def run(
         mp, mr, map50, map = p.mean(), r.mean(), ap50.mean(), ap.mean()
     nt = np.bincount(stats[3].astype(int), minlength=nc)  # number of targets per class
 
+    
+
     # Print results
     pf = '%22s' + '%11i' * 2 + '%11.3g' * 4  # print format
     LOGGER.info(pf % ('all', seen, nt.sum(), mp, mr, map50, map))
@@ -430,7 +446,7 @@ def run(
 
 def parse_opt():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--data', type=str, default=ROOT / 'config/data_config_print_patch.yaml', help='dataset.yaml path')
+    parser.add_argument('--data', type=str, default=ROOT / 'config/data_config_one.yaml', help='dataset.yaml path')
     parser.add_argument('--weights', nargs='+', type=str, default="checkpoints/finetune_yolov5s_onINRIA.pt", help='model path(s)')
     parser.add_argument('--batch-size', type=int, default=32, help='batch size')
     parser.add_argument('--imgsz', '--img', '--img-size', type=int, default=640, help='inference size (pixels)')

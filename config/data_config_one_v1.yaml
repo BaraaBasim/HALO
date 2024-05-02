@@ -1,0 +1,11 @@
+path: /home/ps/Baraa/data/nightowls_yolo_format (small)
+
+# INRIAPerson_YOLO_relabel
+# COCOPerson_YOLO
+
+train: images/train
+val: images/val
+
+# Classes
+nc: 1 # number of classes
+names: ["pedestrian"] # class names

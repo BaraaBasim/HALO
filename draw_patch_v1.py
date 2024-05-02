@@ -243,6 +243,7 @@ def run(
     patch_applier = PatchApplier().cuda()
 
     
+                   
     for batch_i, (im, targets, paths, shapes) in enumerate(pbar):
         callbacks.run('on_val_batch_start')
         with dt[0]:
@@ -254,15 +255,14 @@ def run(
             nb, _, height, width = im.shape  # batch size, channels, height, width
             
             imgWithPatch = im
-            for i in range(12):
-                if swarm_parameters is not None:
-                    x = swarm_parameters.gbest_position
-                else:
-                    pass
+            for i in range(x.size(0)):
                 top_para, bottom_para, left_para, right_para = x[i][0].item(), x[i][1].item(), x[i][2].item(), x[i][3].item();
-                
-                psf_img = cv2.imread(f'psf_starlight/{i}.jpg')
+                color = x[i][4].item()
+                color = int(color)
+                color = color % 3
+                psf_img = cv2.imread(f'../v0/psf_starlight/{color}.jpg')
                 psf_img = cv2.cvtColor(psf_img, cv2.COLOR_BGR2RGB)
+
 
                 # imz = TF.ToPILImage()(psf_img)
                 psf_img = add_padding(psf_img, top_para, bottom_para, left_para, right_para)
@@ -360,7 +360,7 @@ def run(
             #im = TF.ToPILImage()(imgWithPatch)
             #im.save("10.png")
         callbacks.run('on_val_batch_end', batch_i, im, targets, paths, shapes, preds)
-
+    
     # Compute metrics
     stats = [torch.cat(x, 0).cpu().numpy() for x in zip(*stats)]  # to numpy
     if len(stats) and stats[0].any():

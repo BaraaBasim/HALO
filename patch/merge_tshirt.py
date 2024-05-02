@@ -18,11 +18,12 @@ image_files.sort()
 
 # Create an empty list to store the images
 images = []
-
+new_size = (160, 177)
 # Read and append the images to the list
 for file in image_files[:12]:
     image_path = os.path.join(images_dir, file)
     image = cv2.imread(image_path)
+    image = cv2.resize(image, new_size)
     images.append(image)
 
 # Create a new blank image with the size of the first image
@@ -30,7 +31,10 @@ merged_image = images[0].copy()
   
 # Merge each image on top of the previous one using addWeighted
 for image in images[1:]:
-    merged_image = cv2.addWeighted(merged_image, 1, image, 1, 0)
+    # cv2.imshow("Image", image)
+    # cv2.waitKey(0)  # Wait for any key press
+    # cv2.destroyAllWindows()  # Close the window
+    merged_image = cv2.addWeighted(merged_image, 1, image, 0.4, 0)
 
 # Save the merged image
 
