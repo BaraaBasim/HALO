@@ -1,0 +1,1 @@
+HALO (Hiding Attack in Low-light cOnditions) is an ongoing research effort that explores adversarial attacks leveraging flashlight-induced perturbations. By manipulating illumination, this approach aims to deceive computer vision models, leading to misclassifications or incorrect predictions.
